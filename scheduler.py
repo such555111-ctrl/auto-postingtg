@@ -14,7 +14,7 @@ from datetime import date, datetime, timedelta
 from aiogram import Bot
 from aiogram.exceptions import (
     TelegramBadRequest,
-    TelegramForbidden,
+    TelegramForbiddenError,
     TelegramNetworkError,
     TelegramRetryAfter,
     TelegramServerError,
@@ -129,7 +129,7 @@ class Scheduler:
                 await self.db.release_claim(sid, pid)
                 log.warning("Сетевая ошибка Telegram, повтор на следующем проходе: %s", e)
                 return "retry"
-            except TelegramForbidden as e:
+            except TelegramForbiddenError as e:
                 await self.db.release_claim(sid, pid)
                 await self._pause(sch, f"нет прав в канале: {e}")
                 return "retry"
