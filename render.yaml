@@ -1,0 +1,24 @@
+# Blueprint для Render: New + → Blueprint → выберите этот репозиторий.
+# (Можно и без него: создайте Web Service вручную, настройки — в README.)
+services:
+  - type: web
+    name: tg-autopost-bot
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: BOT_TOKEN          # токен от @BotFather
+        sync: false
+      - key: ADMIN_IDS          # ваш Telegram ID (несколько — через запятую)
+        sync: false
+      - key: DATABASE_URL       # строка подключения Postgres (Supabase/Neon), см. README
+        sync: false
+      - key: TIMEZONE
+        value: Europe/Moscow
+      - key: LOG_FILE           # на Render логи идут в консоль, файл не нужен
+        value: ""
